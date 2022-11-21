@@ -26,4 +26,21 @@ function renderSearchHistory() {
     }
 }
 
+function appendToHistory(search) {
+    if (searchHistory.indexOf(search) !== -1) {
+        return;
+    }
+    searchHistory.push(search);
+localStorage.setItem('search-history', JSON.stringify(searchHistory));
+renderSearchHistory();
+}
+
+function localSearchHistory() {
+    var storedHistory = localStorage.getItem('search-history');
+    if (storedHistory) {
+        searchHistory = JSON.parse(storedHistory);
+    }
+    renderSearchHistory();
+}
+
 
