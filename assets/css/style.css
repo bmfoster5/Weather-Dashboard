@@ -3,10 +3,10 @@
     padding: 0;
     margin: 0;
 }
-@font-face {
+/* @font-face {
     font-family: customFonts;
     src: url(Foudy-JDYK.ttf);
-}
+} */
 header {
     font-family: customFonts;
     box-sizing: border-box;

@@ -13,24 +13,47 @@
 </head>
 
 <body>
-    <header>
+    <header class="container-fluid text-center text-white bg-dark p-2 weather-dashboard">
         <h1>WEATHER DASHBOARD</h1>
     </header>
 
-    <section class="content">
-        <aside class="city-search">
-            <input class="search-bar" type="text" placeholder="Find city.."></input>
-            <button class="search-button" type="button">Search</button>>
-            <div class="search-history"></div>
-        </aside>
+    <section class="container-fluid" style="max-width: 1400px">
+        <div class="row">
+            <aside class="col-lg-3 pb-3">
+                <h2 id="form-heading" class="mt-1 h3 form-label">
+                    Search for a City:
+                </h2>
+                <form id="search-bar" class="form">
+                    <div class="form-inline form-group">
+                        <div class="input-group">
+                            <input class="form-inpu weather-search" type="text" id="search-input"
+                                placeholder="Charlotte" aria-labelledby="form-heading" aria-controls="today forecast" />
+                            <div class="input-group-append">
+                                <button type="submit" class="btn search-button" id="search-button"
+                                    aria-label="submit search">Search</button>
+                                <hr class="hr weather-hr" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="list-group" id="history"></div>
+            </aside>
+        </div>
+    </section>
 
-        <article class="current-box"></article>
+    <section class="results col-lg-9 pb-3">
+        <h1 id="cityDate">City/Date</h1>
+        <p id="temp"></p>
+        <p id="wind"></p>
+        <p id="humidity"></p>
+    </section>
+<div id="forecastDiv">
+    
+</div>
 
-        <article class="five-day-box"></article>
 
-
-        <script src="api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=816f5eec2918e5335373901c86bd48da"></script>
-        <script src="./assets/js/script.js"></script>
+    <!-- <script src="api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=816f5eec2918e5335373901c86bd48da"></script> -->
+    <script src="./assets/js/script.js"></script>
 </body>
 
 </html>
