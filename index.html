@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+
+    <title>Weather Dashoboard</title>
+</head>
+
+<body>
+    <header>
+        <h1>WEATHER DASHBOARD</h1>
+    </header>
+
+    <section class="content">
+        <aside class="city-search">
+            <input class="search-bar" type="text" placeholder="Find city.."></input>
+            <button class="search-button" type="button">Search</button>>
+            <div class="search-history"></div>
+        </aside>
+
+        <article class="current-box"></article>
+
+        <article class="five-day-box"></article>
+
+
+        <script src="api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=816f5eec2918e5335373901c86bd48da"></script>
+        <script src="./assets/js/script.js"></script>
+</body>
+
+</html>
