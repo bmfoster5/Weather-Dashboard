@@ -23,6 +23,7 @@ var humidity = document.querySelector("#humidity");
 
 renderSearchHistory();
 
+//create search history on page refresh/page load
 function renderSearchHistory() {
     searchHistoryContainer.innerHTML = " ";
 
@@ -38,6 +39,7 @@ function renderSearchHistory() {
     }
 }
 
+//append previously searched cities and add them to local storage
 function appendToHistory(search) {
     if (searchHistory.indexOf(search) !== -1) {
         return;
@@ -47,25 +49,25 @@ function appendToHistory(search) {
     renderSearchHistory();
 }
 
+
 function localSearchHistory() {
     var storedHistory = localStorage.getItem('search-history');
     if (storedHistory) {
         searchHistory = JSON.parse(storedHistory);
-    } 
+    }
     renderSearchHistory();
 }
 
+//Create search history list and send to local storage
 function historyList(searchValue) {
     var historyBtn = document.createElement("button");
     historyBtn.textContent = searchValue;
     searchHistoryContainer.append(searchValue);
-    // if (searchHistory.indexOf(search) !== -1) {
-    //     return;
-    // }
     searchHistory.push(searchValue);
     localStorage.setItem('search-history', JSON.stringify(searchHistory));
 }
 
+//add event listener for input and button
 searchBtn.addEventListener("click", function (event) {
     event.preventDefault()
     historyList(searchInput.value)
@@ -84,24 +86,25 @@ searchBtn.addEventListener("click", function (event) {
             temp.innerHTML = "Temp: " + tempR + " F";
             wind.innerHTML = "Wind: " + windR + " MPH";
             humidity.innherHTML = "Humidity: " + humidityR + "%";
-forecast(response.coord.lat, response.coord.lon);
+            forecast(response.coord.lat, response.coord.lon);
 
         })
 });
 
+//Show 5 day forecast
 function forecast(lat, lon) {
     fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`)
-    .then((response) => response.json())
-    .then((response) => {
-        console.log(response);
+        .then((response) => response.json())
+        .then((response) => {
+            console.log(response);
 
-        for (var i = 4; response.list.length; i = i + 8) {
-var temp = $("<p>").text(response.list[i].main.temp)
+            for (var i = 4; response.list.length; i = i + 8) {
+                var temp = $("<p>").text(response.list[i].main.temp)
 
 
 
-       $("#forecastDiv").append(temp)     
-        }
+                $("#forecastDiv").append(temp)
+            }
 
-    })
+        })
 }
