@@ -4,6 +4,8 @@ var todayContainer = document.querySelector('#today');
 var forecastContainer = document.querySelector('#forecast');
 var searchHistoryContainer = document.querySelector('#history');
 var searchBtn = document.querySelector("#search-button");
+var fiveDay = document.getElementById('forecastDiv')
+var currentDate = document.getElementById('todays-date')
 
 var searchHistory = JSON.parse(localStorage.getItem("search-history")) || [];
 var weatherRoot = 'https://api.openweathermap.org';
@@ -36,6 +38,12 @@ function renderSearchHistory() {
         btn.setAttribute('data-search', searchHistory[i]);
         btn.textContent = searchHistory[i];
         searchHistoryContainer.append(btn);
+
+        btn.addEventListener('click', function (event) {
+            console.log('clicked', event.target.textContent)
+            var clickedCity = event.target.textContent
+            initialSearch(clickedCity)
+        })
     }
 }
 
@@ -65,16 +73,24 @@ function historyList(searchValue) {
     searchHistoryContainer.append(searchValue);
     searchHistory.push(searchValue);
     localStorage.setItem('search-history', JSON.stringify(searchHistory));
+
+
 }
 
 //add event listener for input and button
 searchBtn.addEventListener("click", function (event) {
     event.preventDefault()
+    var cityVal = searchInput.value
+    initialSearch(cityVal)
+})
+
+function initialSearch(city) {
     historyList(searchInput.value)
-    fetch("https://api.openweathermap.org/data/2.5/weather?q=" + searchInput.value + "&units=imperial" + "&appid=" + apiKey)
+    fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial" + "&appid=" + apiKey + "&units=imperial")
         .then((response) => response.json())
         .then((response) => {
             console.log(response);
+            currentDate.textContent = moment().format('DD MMMM YYYY')
             var cityR = response["name"] //equivalent to response.name
             var tempR = response["main"]["temp"]; //equivalent to response.main.temp
             var windR = response["wind"]["speed"];
@@ -85,25 +101,30 @@ searchBtn.addEventListener("click", function (event) {
             cityDate.innerHTML = cityR + " " + iconURL + iconR + ".png>"
             temp.innerHTML = "Temp: " + tempR + " F";
             wind.innerHTML = "Wind: " + windR + " MPH";
-            humidity.innherHTML = "Humidity: " + humidityR + "%";
+            humidity.innerHTML = "Humidity: " + humidityR + "%";
             forecast(response.coord.lat, response.coord.lon);
 
         })
-});
+};
 
 //Show 5 day forecast
 function forecast(lat, lon) {
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`)
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`)
         .then((response) => response.json())
         .then((response) => {
             console.log(response);
 
-            for (var i = 4; response.list.length; i = i + 8) {
-                var temp = $("<p>").text(response.list[i].main.temp)
+            for (var i = 0; i < 5; i++) {
+                var dayOfWeek = document.createElement('p')
+                dayOfWeek.textContent = moment().add(i + 1, 'days').format('dddd')
+
+
+                var temp = document.createElement('p')
+                temp.textContent = `Temp: ${response.list[i].main.temp}`
 
 
 
-                $("#forecastDiv").append(temp)
+                fiveDay.append(dayOfWeek, temp)
             }
 
         })
